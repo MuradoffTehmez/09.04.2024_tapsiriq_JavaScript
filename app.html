@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Technology Slideshow</title>
+    <style>
+        #slide-container {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide-image.active {
+            opacity: 1;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 34%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #f30707;
+            background-color: rgba(21, 213, 50, 0.5);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .nav-button.prev {
+            left: 1rem;
+        }
+
+        .nav-button.next {
+            right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="slide-container">
+        <!-- Burada JavaScript vasitəsilə məhsul şəkilləri dinamik olaraq yerləşdiriləcək -->
+    </div>
+
+    <div class="nav-button prev">&lt;</div>
+    <div class="nav-button next">&gt;</div>
+
+    <script>
+        const productImages = [
+            'https://picsum.photos/id/10/1920/1080',
+            'https://picsum.photos/id/11/1920/1080',
+            'https://picsum.photos/id/12/1920/1080',
+            'https://picsum.photos/id/13/1920/1080',
+            'https://picsum.photos/id/14/1920/1080',
+            'https://picsum.photos/id/15/1920/1080',
+            'https://picsum.photos/id/16/1920/1080',
+            'https://picsum.photos/id/17/1920/1080',
+            'https://picsum.photos/id/18/1920/1080',
+            'https://picsum.photos/id/19/1920/1080'
+        ];
+
+        const slideContainer = document.querySelector('#slide-container');
+        const prevButton = document.querySelector('.nav-button.prev');
+        const nextButton = document.querySelector('.nav-button.next');
+
+        let currentSlide = 0;
+        const slides = [];
+
+        productImages.forEach((imageUrl, index) => {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.classList.add('slide-image');
+            if (index === 0) {
+                img.classList.add('active');
+            }
+            slideContainer.appendChild(img);
+            slides.push(img);
+        });
+
+        function showSlide(n) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === n);
+            });
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        prevButton.addEventListener('click', prevSlide);
+        nextButton.addEventListener('click', nextSlide);
+
+        setInterval(nextSlide, 900);
+    </script>
+</body>
+
+</html>
